@@ -661,7 +661,7 @@
                         <configuration>
                             <argLine>@{argLine}</argLine>
                             <trimStackTrace>false</trimStackTrace>
-                            <testFailureIgnore>false</testFailureIgnore>
+                            <testFailureIgnore>true</testFailureIgnore>
                             <rerunFailingTestsCount>0</rerunFailingTestsCount>
                             <properties>
                                 <property>

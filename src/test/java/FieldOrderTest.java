@@ -21,10 +21,12 @@ public class FieldOrderTest
     private String expected;
 
     @Parameterized.Parameters
-    public static Collection<String[]> testParameters(){
-    return Arrays.asList(new String[][]{
+    public static Collection<Object[]> testParameters(){
+    return Arrays.asList(new Object[][]{
             {"njb","llyz","{\"name\":\"njb\",\"school\":{\"name\":\"llyz\"}}"}, //PersonName, schoolName, expected
-
+            {null,"llyz","{\"school\":{\"name\":\"llyz\"}}"},
+            {"njb",null,"{\"name\":\"njb\",\"school\":{}}"},
+            {null,null,"{\"school\":{}}"}, //Aggiungere campi null non ha incrementato la coverage?
     });
     }
 

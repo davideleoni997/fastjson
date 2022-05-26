@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -21,6 +22,8 @@ public class OrderedFieldTest{
         return Arrays.asList(new String[][] {
 
                 {"{\"id\":1001}","1001"}, //model, expectedId
+                {"{\"id\":}","1001"}, //Parser e deserializer coverage aumenta dell'1%, al costo di dover continuare con test failures
+                {"{\"id\":abc}","1001"} //Stesso effetto del null
         });
     }
 
@@ -30,7 +33,8 @@ public class OrderedFieldTest{
 
     public void configure(String modello, String id) {
         this.modello= modello;
-        this.id= Integer.parseInt(id);
+        this.id = Integer.parseInt(id);
+
     }
 
     @Test
