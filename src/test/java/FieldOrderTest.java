@@ -60,7 +60,7 @@ public class FieldOrderTest
             String json = JSON.toJSONString(p);
             assertEquals(expected, json);
         }catch(Exception e){
-            Assert.assertEquals(expected,e.getClass());
+            Assert.assertEquals(expected,e.getClass().getSimpleName());
         }
     }
 
