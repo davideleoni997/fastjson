@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSONException;
+import com.fasterxml.jackson.core.JsonParseException;
 import org.junit.Assert;
 
 import com.alibaba.fastjson.JSON;
@@ -39,11 +41,15 @@ public class OrderedFieldTest{
 
     @Test
     public void test_ordered_field() throws Exception {
-        String text = modello;
-        Model model = JSON.parseObject(text, Model.class, Feature.OrderedField);
-        Assert.assertEquals(id, model.getId());
-        String text2 = JSON.toJSONString(model);
-        Assert.assertEquals(text, text2);
+        try {
+            String text = modello;
+            Model model = JSON.parseObject(text, Model.class, Feature.OrderedField);
+            Assert.assertEquals(id, model.getId());
+            String text2 = JSON.toJSONString(model);
+            Assert.assertEquals(text, text2);
+        }catch(Exception e){
+            Assert.assertEquals(e.getClass(), JSONException.class);
+        }
         
     }
     

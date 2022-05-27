@@ -1,9 +1,11 @@
 import com.alibaba.fastjson.JSON;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -20,35 +22,46 @@ public class FieldOrderTest
     private String schoolName;
     private String expected;
 
+    private Person p;
+
     @Parameterized.Parameters
     public static Collection<Object[]> testParameters(){
     return Arrays.asList(new Object[][]{
-            {"njb","llyz","{\"name\":\"njb\",\"school\":{\"name\":\"llyz\"}}"}, //PersonName, schoolName, expected
-            {null,"llyz","{\"school\":{\"name\":\"llyz\"}}"},
-            {"njb",null,"{\"name\":\"njb\",\"school\":{}}"},
-            {null,null,"{\"school\":{}}"}, //Aggiungere campi null non ha incrementato la coverage?
+            {true,"njb","llyz","{\"name\":\"njb\",\"school\":{\"name\":\"llyz\"}}"}, //PersonName, schoolName, expected
+            {true,null,"llyz","{\"school\":{\"name\":\"llyz\"}}"},
+            {true,"njb",null,"{\"name\":\"njb\",\"school\":{}}"},
+            {true,null,null,"{\"school\":{}}"}, //Aggiungere campi null non ha incrementato la coverage?
+            {false,null,null, "null"}
     });
     }
 
-    public FieldOrderTest(String personName,String schoolName,String expected){
-        configure(personName,schoolName,expected);
+    public FieldOrderTest(boolean fill,String personName,String schoolName,String expected){
+        configure(fill,personName,schoolName,expected);
     }
 
-    public void configure(String personName, String schoolName, String expected) {
+    public void configure(boolean fill,String personName, String schoolName, String expected) {
         this.personName = personName;
         this.schoolName = schoolName;
         this.expected = expected;
+        if(fill) {
+            Person p = new Person();
+            p.setName(personName);
+            School s = new School();
+            s.setName(schoolName);
+            p.setSchool(s);
+            this.p = p;
+        }
+        else this.p = null;
     }
 
     @Test
     public void test_field_order(){
-        Person p = new Person();
-        p.setName(personName);
-        School s = new School();
-        s.setName(schoolName);
-        p.setSchool(s);
-        String json = JSON.toJSONString(p);
-        assertEquals(expected, json);
+        try {
+            String json = JSON.toJSONString(p);
+            assertEquals(expected, json);
+        }catch(Exception e){
+            Assert.assertEquals(expected,e.getClass());
+        }
     }
 
     public static class Person {
