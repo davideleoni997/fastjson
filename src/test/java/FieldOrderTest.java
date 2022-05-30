@@ -30,7 +30,7 @@ public class FieldOrderTest
             {true,"njb","llyz","{\"name\":\"njb\",\"school\":{\"name\":\"llyz\"}}"}, //PersonName, schoolName, expected
             {true,null,"llyz","{\"school\":{\"name\":\"llyz\"}}"},
             {true,"njb",null,"{\"name\":\"njb\",\"school\":{}}"},
-            {true,null,null,"{\"school\":{}}"}, //Aggiungere campi null non ha incrementato la coverage?
+            {true,null,null,"{\"school\":{}}"},
             {false,null,null, "null"}
     });
     }
